@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gotth-stack
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: applications
+  source:
+    repoURL: git@github.com:dobsondev/homelab.git
+    path: argocd/helm
+    targetRevision: main
+    helm:
+      valueFiles:
+        - ../values/gotth-stack.yml
+  destination:
+    namespace: gotth-stack
+    name: in-cluster
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

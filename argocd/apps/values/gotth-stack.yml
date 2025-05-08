@@ -1,0 +1,25 @@
+replicaCount: 3
+
+image:
+  repository: ghcr.io/dobsondev/gotth-stack
+  pullPolicy: IfNotPresent
+  tag: "v0.0.1"
+
+service:
+  type: NodePort
+  nodePort: 3000
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 80
