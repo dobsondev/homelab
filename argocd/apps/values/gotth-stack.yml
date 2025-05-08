@@ -1,25 +1,21 @@
+name: gotth-stack
+
 replicaCount: 3
 
 image:
   repository: ghcr.io/dobsondev/gotth-stack
+  tag: v0.0.1
   pullPolicy: IfNotPresent
-  tag: "v0.0.1"
 
 service:
   type: NodePort
-  nodePort: 3000
+  port: 3000
+  nodePort: 30080  # Specify a nodePort between 30000-32767
 
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
-
-autoscaling:
-  enabled: false
-  minReplicas: 3
-  maxReplicas: 6
-  targetCPUUtilizationPercentage: 80
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

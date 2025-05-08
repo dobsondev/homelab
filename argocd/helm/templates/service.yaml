@@ -1,9 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "helm.fullname" . }}
+  name: {{ .Values.name }}-service
   labels:
-    {{- include "helm.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ .Values.Name }}-service
+    app.kubernetes.io/instance: {{ .Values.name }}-service-{{ .Values.image.tag }}
+    app.kubernetes.io/version: {{ .Values.image.tag }}
+    app.kubernetes.io/component: application
+    app.kubernetes.io/part-of: {{ .Values.name }}
+    app.kubernetes.io/managed-by: Helm
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -11,5 +16,10 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+      {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
   selector:
-    {{- include "helm.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ .Values.Name }}-pod
+    app.kubernetes.io/component: application
+    app.kubernetes.io/part-of: {{ .Values.name }}
