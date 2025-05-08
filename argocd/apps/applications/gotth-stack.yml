@@ -13,7 +13,8 @@ spec:
     targetRevision: main
     helm:
       valueFiles:
-        - ../values/gotth-stack.yml
+        # Note, this is relative path to the chart above (argocd/helm)
+        - ../apps/values/gotth-stack.yml
   destination:
     namespace: gotth-stack
     name: in-cluster
