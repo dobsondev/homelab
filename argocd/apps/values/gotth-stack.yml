@@ -1,4 +1,5 @@
 name: gotth-stack
+component: application
 
 replicaCount: 3
 
@@ -19,3 +20,10 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
