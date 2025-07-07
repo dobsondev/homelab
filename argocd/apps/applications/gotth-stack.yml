@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dobsondev/homelab.git
-    path: argocd/helm
+    path: argocd/helm/gotth-app
     targetRevision: main
     helm:
       valueFiles:

@@ -1,0 +1,31 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.name }}-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  labels:
+    app.kubernetes.io/name: {{ .Values.name }}-ingress
+    app.kubernetes.io/instance: {{ .Values.name }}-ingress-{{ .Values.image.tag }}
+    app.kubernetes.io/version: {{ .Values.image.tag }}
+    app.kubernetes.io/component: {{ .Values.component }}
+    app.kubernetes.io/part-of: {{ .Values.name }}
+    app.kubernetes.io/managed-by: Helm
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host}}
+    secretName: homelab-dobson-dev-production-tls # Shared wildcard TLS secret
+  rules:
+  - host: {{ .Values.ingress.host}}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.name }}-service
+            port:
+              number: {{ .Values.service.nodePort }}
+{{- end -}}

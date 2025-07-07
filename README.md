@@ -22,3 +22,15 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 ## Installed Applications & Tools
 
 - [Argo CD](https://argoproj.github.io/cd/)
+- [Traefik](https://traefik.io/solutions/kubernetes-ingress)
+- [cert-manager](https://cert-manager.io/)
+- [Cloudflare](https://www.cloudflare.com/)
+- [Let's Encrypt](https://letsencrypt.org/)
+
+## Setup
+
+Follow the documentation in this order:
+
+1. [Setup Machines](docs/setup.md)
+2. [Setup Argo CD](docs/argocd.md)
+3. [Setup SSL](docs/ssl.md)
