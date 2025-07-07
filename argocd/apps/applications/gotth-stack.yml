@@ -14,7 +14,7 @@ spec:
     helm:
       valueFiles:
         # Note, this is relative path to the chart above (argocd/helm)
-        - ../apps/values/gotth-stack.yml
+        - ../../apps/values/gotth-stack.yml
   destination:
     namespace: gotth-stack
     name: in-cluster
