@@ -22,6 +22,10 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+ingress:
+  enabled: false
+  host: example.homelab.dobson.dev
+
 autoscaling:
   enabled: false
   minReplicas: 3
@@ -29,7 +33,14 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
+# Pod config mapping
+configMap: {}
+# configMap:
+#   key: value
+#   another-key: another-value
+
 # Pod environment variables
 env: []
-  # - name: APP_ENV
-  #   value: production
+# env:
+# - name: APP_ENV
+#   value: production

@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homelab-dobson-dev-staging
+  namespace: default
+spec:
+  secretName: homelab-dobson-dev-staging-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: "*.homelab.dobson.dev"
+  dnsNames:
+  - "homelab.dobson.dev"
+  - "*.homelab.dobson.dev"

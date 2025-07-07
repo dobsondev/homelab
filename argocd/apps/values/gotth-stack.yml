@@ -21,6 +21,10 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+ingress:
+  enabled: true
+  host: gotth.homelab.dobson.dev
+
 autoscaling:
   enabled: true
   minReplicas: 3

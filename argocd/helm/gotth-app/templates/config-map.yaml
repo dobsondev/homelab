@@ -1,0 +1,17 @@
+{{ if $values.configMap }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-configmap
+  labels:
+    app.kubernetes.io/name: {{ .Values.name }}-configmap
+    app.kubernetes.io/instance: {{ .Values.name }}-configmap-{{ .Values.image.tag }}
+    app.kubernetes.io/version: {{ .Values.image.tag }}
+    app.kubernetes.io/component: {{ .Values.component }}
+    app.kubernetes.io/part-of: {{ .Values.name }}
+    app.kubernetes.io/managed-by: Helm
+data:
+  {{- range $key, $val := $values.configMap }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end}}
+{{ end }}

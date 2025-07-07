@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-dashboard-ingress
+  namespace: kube-system
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  tls:
+  - hosts:
+    - traefik.homelab.dobson.dev
+    secretName: homelab-dobson-dev-production-tls
+  rules:
+  - host: traefik.homelab.dobson.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: traefik-dashboard-lb # Use our existing LoadBalancer service
+            port:
+              number: 8080
