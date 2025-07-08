@@ -27,5 +27,5 @@ spec:
           service:
             name: {{ .Values.name }}-service
             port:
-              number: {{ .Values.service.nodePort }}
+              number: {{ .Values.service.port }}
 {{- end -}}
