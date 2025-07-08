@@ -9,9 +9,12 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 3000
-  nodePort: 30080  # Specify a nodePort between 30000-32767
+
+ingress:
+  enabled: true
+  host: gotth.homelab.dobson.dev
 
 resources:
   limits:
@@ -20,10 +23,6 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-
-ingress:
-  enabled: true
-  host: gotth.homelab.dobson.dev
 
 autoscaling:
   enabled: true

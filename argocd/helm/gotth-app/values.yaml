@@ -1,5 +1,5 @@
-name: dobsondev-homelab
-component: homelab
+name: gotth-app
+component: application
 
 # Default values for my homelab
 replicaCount: 3
@@ -10,9 +10,16 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 3000
-  nodePort: 30080  # Specify a nodePort between 30000-32767
+  # Example of using NodePort instead of ClusterIP:
+  # type: NodePort
+  # port: 3000
+  # nodePort: 30080  # Specify a nodePort between 30000-32767
+
+ingress:
+  enabled: false
+  host: example.homelab.dobson.dev
 
 resources:
   limits:
@@ -21,10 +28,6 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-
-ingress:
-  enabled: false
-  host: example.homelab.dobson.dev
 
 autoscaling:
   enabled: false
