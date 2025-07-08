@@ -1,4 +1,4 @@
-{{ if $values.configMap }}
+{{ if .Values.configMap.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/part-of: {{ .Values.name }}
     app.kubernetes.io/managed-by: Helm
 data:
-  {{- range $key, $val := $values.configMap }}
+  {{- range $key, $val := .Values.configMap }}
   {{ $key }}: {{ $val | quote }}
   {{- end}}
 {{ end }}
