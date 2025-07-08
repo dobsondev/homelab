@@ -1,0 +1,24 @@
+name: Lint Helm Charts
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-gotth-app-helm-chart:
+    name: Lint Gotth App Helm Chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4.2.0
+        with:
+          version: v3.17.0
+
+      - name: Lint Helm Chart
+        run: helm lint argocd/helm/gotth-app

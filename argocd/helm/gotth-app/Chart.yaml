@@ -1,6 +1,6 @@
 apiVersion: v2
-name: dobsondev-homelab
-description: A Helm chart for any applications I deploy in my homelab
+name: gotth-app
+description: A Helm chart for any application made with my GoTTH stack.
 type: application
 version: 0.1.0
 appVersion: "0.0.1"
