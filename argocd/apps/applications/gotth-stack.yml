@@ -9,12 +9,12 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dobsondev/homelab.git
-    path: argocd/helm/gotth-app
+    path: argocd/helm/charts/gotth-app
     targetRevision: main
     helm:
       valueFiles:
         # Note, this is relative path to the chart above (argocd/helm/<chart>)
-        - ../../apps/values/gotth-stack.yml
+        - ../../values/gotth-stack.yml
   destination:
     namespace: gotth-stack
     name: in-cluster

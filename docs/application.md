@@ -36,12 +36,12 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dobsondev/homelab.git
-    path: argocd/helm/<helm_chart>
+    path: argocd/helm/charts/<helm_chart>
     targetRevision: main
     helm:
       valueFiles:
         # Note, this is relative path to the chart above (argocd/helm/<chart>)
-        - ../../apps/values/<application_name>.yml
+        - ../../values/<application_name>.yml
   destination:
     namespace: <application_name>
     name: in-cluster
@@ -59,14 +59,14 @@ In the above template, you will want to replace the following:
 
 ### 2. Create Values YML
 
-This values YML should be named after the `<application_name>` from above and put in the `argocd/apps/values` directory.
+This values YML should be named after the `<application_name>` from above and put in the `argocd/helm/values` directory.
 The actual content of this file will depend on what Helm chart you are using as the base of your application.
 
 If you are not using Helm to template your application, then you don't need a values file.
 
 ### 3. Create Helm Chart
 
-If needed, you can create a new Helm chart for your application to use, simply put it in the `argocd/helm` directory.
+If needed, you can create a new Helm chart for your application to use, simply put it in the `argocd/helm/charts` directory.
 This is the perfered method if you plan on re-using your config, for example there is a Helm chart for GoTTH Stack 
 Golang applications in this repo so I can create as many as I want by re-using the same Helm chart.
 

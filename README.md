@@ -19,7 +19,14 @@ I am using a bunch of old 1-litre computers to run the cluster. They are small, 
 
 I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 
-## Installed Applications & Tools
+## Installed Applications
+
+- [Argo CD](https://argoproj.github.io/cd/)
+- [Traefik](https://traefik.io/solutions/kubernetes-ingress)
+- [GoTTH Stack Example](https://github.com/dobsondev/GoTTH-stack)
+- [NGINX Example](https://nginx.org/)
+
+## Installed Tools
 
 - [Argo CD](https://argoproj.github.io/cd/)
 - [Traefik](https://traefik.io/solutions/kubernetes-ingress)
@@ -29,8 +36,9 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 
 ## Setup
 
-Follow the documentation in this order:
+Follow along with the documentation in this order if you want to roll out your own cluster:
 
 1. [Setup Machines](docs/setup.md)
 2. [Setup Argo CD](docs/argocd.md)
 3. [Setup SSL](docs/ssl.md)
+4. [Setup Applications](docs/application.md)

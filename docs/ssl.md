@@ -180,3 +180,28 @@ certificate attached.
 
 At this point, you can following the instructions here to setup the Ingress for ArgoCD:
 - [ArgoCD Ingress](argocd.md#argocd-ingress)
+
+## Other Applications Ingress
+
+When you create an ingress with the following configuration:
+- `cert-manager.io/cluster-issuer: letsencrypt-production` annotation
+- `secretName: homelab-dobson-dev-production-tls`
+
+`cert-manager` will automatically:
+
+1. Creates a Certificate resource **in that namespace**
+2. Requests a certificate for the specific hostname (e.g., `gotth.homelab.dobson.dev`)
+3. Stores it in a secret named `homelab-dobson-dev-production-tls` **in that namespace**
+
+So what actually happens is that multiple secrets with the same name but in different namespaces are created:
+
+- `homelab-dobson-dev-production-tls` in `default` namespace (manual wildcard cert)
+- `homelab-dobson-dev-production-tls` in `gotth-stack` namespace (auto-created for `gotth.homelab.dobson.dev`)
+- `homelab-dobson-dev-production-tls` in `kube-system` namespace (auto-created for `traefik.homelab.dobson.dev`)
+- `homelab-dobson-dev-production-tls` in `nginx-example` namespace (auto-created for `nginx.homelab.dobson.dev`)
+
+### Helm Behaviour
+
+When you don't specify a namespace in your Helm templates, Helm automatically uses the namespace where you're installing 
+the release. That's why Helm applications such as the `gotth-stack` application works seamlessly - all resources get 
+deployed into the `gotth-stack` namespace automatically.
