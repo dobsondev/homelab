@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx-example-ingress
-  namespace: kube-system
+  namespace: nginx-example
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
