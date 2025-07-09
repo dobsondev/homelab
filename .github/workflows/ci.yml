@@ -21,4 +21,4 @@ jobs:
           version: v3.17.0
 
       - name: Lint Helm Chart
-        run: helm lint argocd/helm/gotth-app
+        run: helm lint argocd/helm/charts/gotth-app
