@@ -175,3 +175,8 @@ kubectl apply -f ssl/traefik-dashboard-ingress-production.yml
 
 At this point you should be able to visit the domain you setup for the Traefik ingress and it should have a valid
 certificate attached.
+
+## ArgoCD Ingress with SSL
+
+At this point, you can following the instructions here to setup the Ingress for ArgoCD:
+- [ArgoCD Ingress](argocd.md#argocd-ingress)
