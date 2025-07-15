@@ -5,6 +5,9 @@ metadata:
   namespace: argocd
 spec:
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
   project: default
@@ -19,3 +22,27 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: longhorn-frontend-ingress
+  namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  tls:
+  - hosts:
+    - longhorn.homelab.dobson.dev
+    secretName: longhorn-dobson-dev-production-tls
+  rules:
+  - host: longhorn.homelab.dobson.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: longhorn-frontend
+            port:
+              number: 80
