@@ -27,7 +27,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: longhorn-frontend-ingress
-  namespace: argocd
+  namespace: longhorn-system
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
