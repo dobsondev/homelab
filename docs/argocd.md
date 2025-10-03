@@ -93,4 +93,17 @@ Finally, we can apply our Ingress:
 kubectl apply -f argocd/argocd-ingress.yml
 ```
 
+You can check when the certificate is ready using the following command:
+
+```bash
+kubectl get certificates -n argocd
+```
+
+When it's ready, you will get something like this for output:
+
+```
+NAME         READY   SECRET       AGE
+argocd-tls   True    argocd-tls   18s
+```
+
 You should now be able to visit the URL assigned in the Ingress and it will work as expected with SSL enabled.

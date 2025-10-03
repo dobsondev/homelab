@@ -38,6 +38,7 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 Follow along with the documentation in this order if you want to roll out your own cluster:
 
 1. [Setup Machines](docs/setup.md)
-2. [Setup Argo CD](docs/argocd.md)
-3. [Setup SSL](docs/ssl.md)
-4. [Setup Applications](docs/application.md)
+2. [Setup SSL](docs/ssl.md)
+3. [Prep Longhorn](docs/longhorn.md)
+4. [Install Argo CD](docs/argocd.md)
+5. [Add More Applications](docs/add-applications.md)
