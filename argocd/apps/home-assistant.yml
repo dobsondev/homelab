@@ -17,10 +17,17 @@ spec:
       targetRevision: 0.3.23
       helm:
         values: |
+          persistence:
+            enabled: true
+            storageClass: longhorn
+            accessMode: ReadWriteOnce
+            size: 5Gi
           configuration:
-            trusted_proxies:
-              - 10.42.0.0/16
-              - 10.43.0.0/16
+            http:
+              use_x_forwarded_for: true
+              trusted_proxies:
+                - 10.42.0.0/16
+                - 10.43.0.0/16
   destination:
     server: https://kubernetes.default.svc
     namespace: home-assistant
