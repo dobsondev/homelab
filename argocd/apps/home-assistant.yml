@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: longhorn
+  name: homeassistant
   namespace: argocd
 spec:
   syncPolicy:
@@ -12,37 +12,33 @@ spec:
       - CreateNamespace=true
   project: default
   sources:
-    - chart: longhorn
-      repoURL: https://charts.longhorn.io/
-      targetRevision: v1.9.0 # Current as of July 2025
-      helm:
-        values: |
-          preUpgradeChecker:
-            jobEnabled: false
+    - chart: home-assistant
+      repoURL: https://pajikos.github.io/home-assistant-helm-chart/
+      targetRevision: 0.3.23
   destination:
     server: https://kubernetes.default.svc
-    namespace: longhorn-system
+    namespace: home-assistant
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: longhorn-frontend-ingress
-  namespace: longhorn-system
+  name: home-assistant-frontend-ingress
+  namespace: home-assistant
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   tls:
   - hosts:
-    - longhorn.homelab.dobson.dev
-    secretName: longhorn-tls
+    - home-assistant.homelab.dobson.dev
+    secretName: home-assistant-tls
   rules:
-  - host: longhorn.homelab.dobson.dev
+  - host: home-assistant.homelab.dobson.dev
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: longhorn-frontend
+            name: home-assistant-frontend
             port:
-              number: 80
+              number: 8123
