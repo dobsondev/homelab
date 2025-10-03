@@ -9,7 +9,7 @@ spec:
   tls:
   - hosts:
     - traefik.homelab.dobson.dev
-    secretName: homelab-dobson-dev-production-tls
+    secretName: traefik-tls
   rules:
   - host: traefik.homelab.dobson.dev
     http:

@@ -21,8 +21,6 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 
 ## Installed Applications
 
-- [Argo CD](https://argoproj.github.io/cd/)
-- [Traefik](https://traefik.io/solutions/kubernetes-ingress)
 - [GoTTH Stack Example](https://github.com/dobsondev/GoTTH-stack)
 - [NGINX Example](https://nginx.org/)
 
@@ -33,6 +31,7 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 - [cert-manager](https://cert-manager.io/)
 - [Cloudflare](https://www.cloudflare.com/)
 - [Let's Encrypt](https://letsencrypt.org/)
+- [Longhorn](https://longhorn.io/)
 
 ## Setup
 

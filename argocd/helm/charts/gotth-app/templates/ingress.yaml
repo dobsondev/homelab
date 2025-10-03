@@ -16,7 +16,7 @@ spec:
   tls:
   - hosts:
     - {{ .Values.ingress.host}}
-    secretName: homelab-dobson-dev-production-tls # Shared wildcard TLS secret
+    secretName: {{ .Values.name }}-tls # This secret is auto-created by cert-manager
   rules:
   - host: {{ .Values.ingress.host}}
     http:

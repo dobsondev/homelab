@@ -12,7 +12,7 @@ spec:
     # Public repo so we are going to use https instead of ssh
     repoURL: https://github.com/dobsondev/homelab.git
     targetRevision: main
-    path: argocd/apps/applications
+    path: argocd/apps
   syncPolicy:
     automated:
       prune: true

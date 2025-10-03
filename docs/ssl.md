@@ -97,24 +97,24 @@ on staging before we move on to prod.
 The first thing we need to do is create a Secret with our Cloudflare API token. The API token needs to have the
 following permissions:
 
-- `Zone.Zone : Read`
+- `Zone.Zone: Read`
 - `Zone.DNS: Edit`
 
-Paste that secret into the the `secret-cloudflare-token.yml` file and apply it using:
+Paste that secret into the the `secret-cloudflare-token.yml` file and apply it using (assuming you have 1Password and keep the secret in 1Password):
 
 ```bash
-kubectl apply -f ssl/issuers/secret-cloudflare-token.yml
-```
-
-**BE SURE TO NOT COMMIT THE SECRET TO VERSION CONTROL!!!**
-
-Once the secret has been created, we can create our issuer:
-
-```bash
-kubectl apply -f ssl/issuers/letsencrypt-issuer.yml
+kubectl create secret generic cloudflare-api-token \
+  --namespace=cert-manager \
+  --from-literal=cloudflare-token="$(op read 'op://Private/<id>/password')"
 ```
 
 ## Create Staging Certificate
+
+Once the secret has been created, we can create our staging issuer:
+
+```bash
+kubectl apply -f ssl/issuers/letsencrypt-staging.yml
+```
 
 Once the issuer has been created, we can finally create our certificate:
 
@@ -125,6 +125,8 @@ kubectl apply -f ssl/certs/staging-cert.yml
 You can follow the progress of the certificate being issued by using:
 
 ```bash
+kubectl get pods -n cert-manager
+# Copy paste the one that doesn't include `-cainjector` or `-webhook` in the name
 kubectl logs -n cert-manager -f <cert-manager-pod>
 ```
 
@@ -185,20 +187,20 @@ At this point, you can following the instructions here to setup the Ingress for 
 
 When you create an ingress with the following configuration:
 - `cert-manager.io/cluster-issuer: letsencrypt-production` annotation
-- `secretName: homelab-dobson-dev-production-tls`
+- `secretName: <whatever>-dobson-dev-tls`
 
 `cert-manager` will automatically:
 
 1. Creates a Certificate resource **in that namespace**
 2. Requests a certificate for the specific hostname (e.g., `gotth.homelab.dobson.dev`)
-3. Stores it in a secret named `homelab-dobson-dev-production-tls` **in that namespace**
+3. Stores it in a secret named `<SERVICE_NAME>-tls` **in that namespace** (e.g. `gotth-stack-tls`)
 
 So what actually happens is that multiple secrets with the same name but in different namespaces are created:
 
-- `homelab-dobson-dev-production-tls` in `default` namespace (manual wildcard cert)
-- `homelab-dobson-dev-production-tls` in `gotth-stack` namespace (auto-created for `gotth.homelab.dobson.dev`)
-- `homelab-dobson-dev-production-tls` in `kube-system` namespace (auto-created for `traefik.homelab.dobson.dev`)
-- `homelab-dobson-dev-production-tls` in `nginx-example` namespace (auto-created for `nginx.homelab.dobson.dev`)
+- `wildcard-tls` in `default` namespace (manual wildcard cert)
+- `gotth-stack-tls` in `gotth-stack` namespace (auto-created for `gotth.homelab.dobson.dev`)
+- `traefik-tls` in `kube-system` namespace (auto-created for `traefik.homelab.dobson.dev`)
+- `nginx-tls` in `nginx-example` namespace (auto-created for `nginx.homelab.dobson.dev`)
 
 ### Helm Behaviour
 

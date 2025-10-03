@@ -5,12 +5,56 @@ I am using [Ubuntu Server 24.04 LTS](https://ubuntu.com/download/server) on all 
 1. Download Ubuntu Server LTS from the Ubuntu site
 2. Flash it onto a USB drive using whatever imaging software you like
 3. Install the OS on all your computers
-  - I like to import SSH keys from GitHub so I don't ever need password auth
-  - I like to install Docker (stable) when installing the OS
+  - The boot menu for Lenovo can be accessed with F12
+  - The boot menu for HP can be access with F9
+  - I like to import SSH keys from GitHub so I don't ever need password authentication
+
+It would be a GREAT idea to set static IP addresses to all the nodes of the cluster once you have them setup!
+
+## Setup Client Computer
+
+All of this setup is steps you can take on your "client" computer, or the computer you will interact with the servers with. I assume that you will SSH into the servers to interact with them after you install the OS the first time.
+
+If you are like me and have strict rules about how you present your SSH keys, then be sure to update your `~/.ssh/config` file to include the new homelab IPs and hostnames:
+
+```
+# Local cluster
+Host 192.168.1.### 192.168.1.### 192.168.1.### 192.168.1.###
+  AddKeysToAgent yes
+  UseKeychain yes
+  User <YOUR_USER>
+  IdentityFile ~/.ssh/<YOUR_PUBLIC_SSH_KEY_FILE_FROM_GITHUB>
+
+# Local cluster by name from /etc/hosts
+Host k3s-server k3s-agent-one k3s-agent-two k3s-agent-three
+  AddKeysToAgent yes
+  UseKeychain yes
+  User <YOUR_USER>
+  IdentityFile ~/.ssh/<YOUR_PUBLIC_SSH_KEY_FILE_FROM_GITHUB>
+```
+
+The `/etc/hosts` file will look something like this to enable the custom hostnames:
+
+```
+# Homelab Cluster
+192.168.1.### k3s-server
+192.168.1.### k3s-agent-one
+192.168.1.### k3s-agent-two
+192.168.1.### k3s-agent-three
+```
+
+Then you can simply run the following command to SSH into the nodes:
+
+```bash
+ssh k3s-server
+ssh k3s-agent-one
+ssh k3s-agent-two
+ssh k3s-agent-three
+```
 
 # Installing K3s
 
-The next three sections go over the installation of K3s and setting up your `kubeconfig` file on another work station. I am assuming you will be doing your work on the cluster from a laptop etc...
+The next three sections go over the installation of K3s and setting up your `kubeconfig` file on another work station. I am assuming you will be doing your work on the cluster from a laptop or base station rather than using the servers.
 
 ## Install K3s Server
 
@@ -25,11 +69,11 @@ curl -sfL https://get.k3s.io | sh -
 
 When this is done, you will find the `kubeconfig` file at:
 
-```
-/etc/rancher/k3s/k3s.yaml
+```bash
+sudo cat /etc/rancher/k3s/k3s.yaml
 ```
 
-You can copy that `kubeconfig` file to your work station computer and then just replace the localhost URL with the URL of the server on your network.
+You can copy that `kubeconfig` file content to your work station computer and then just replace the localhost URL with the URL of the server on your network.
 
 For example, if your K3s server had IP `192.168.1.123` on your local network, then:
 
@@ -37,7 +81,7 @@ For example, if your K3s server had IP `192.168.1.123` on your local network, th
     server: https://127.0.0.1:6443
 ```
 
-would become:
+would become
 
 ```yaml
     server: https://192.168.1.123:6443

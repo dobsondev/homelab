@@ -4,7 +4,7 @@ metadata:
   name: homelab-dobson-dev-production
   namespace: default
 spec:
-  secretName: homelab-dobson-dev-production-tls
+  secretName: wildcard-tls
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer

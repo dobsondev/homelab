@@ -5,16 +5,16 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: email@example.com # Replace with your email
+    email: alex@dobsondev.com
     privateKeySecretRef:
       name: letsencrypt-production
     solvers:
     - dns01:
         cloudflare:
-          email: email@example.com # Replace with your email
+          email: alex@dobsondev.com
           apiTokenSecretRef:
             name: cloudflare-api-token
             key: cloudflare-token
       selector:
         dnsZones:
-        - "example.com" # Replace with your domain
+        - "dobson.dev"
