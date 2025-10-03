@@ -7,6 +7,8 @@
 
 ## Installing CLI Tool
 
+Do the following from your client machine (note: I have an Apple Silicon chip, if you do not then your command will change):
+
 ```bash
 curl -L https://github.com/longhorn/cli/releases/download/v1.9.0/longhornctl-darwin-arm64 -o longhornctl
 chmod +x longhornctl
@@ -19,17 +21,56 @@ sudo mv ./longhornctl /usr/local/bin/longhornctl
 > the requirements for Longhorn to function properly. These checks can help to identify issues that might prevent 
 > Longhorn from functioning properly.
 
+Again, this should be run from your client machine (not a node on the cluster):
+
 ```bash
-longhornctl check preflight
+longhornctl --kube-config ~/.kube/config check preflight
 ```
 
 If you get any errors, then you need to run the `longhornctl install preflight` command:
 
 ```bash
-longhornctl install preflight
+longhornctl --kube-config ~/.kube/config install preflight
 ```
 
-Following that, run the `longhornctl check preflight` again and you should not get any errors.
+You should get output similar to this:
+
+```
+INFO[2025-10-02T21:18:42-06:00] Initializing preflight installer
+INFO[2025-10-02T21:18:42-06:00] Cleaning up preflight installer
+INFO[2025-10-02T21:18:42-06:00] Running preflight installer
+INFO[2025-10-02T21:18:42-06:00] Installing dependencies with package manager
+INFO[2025-10-02T21:19:07-06:00] Installed dependencies with package manager
+INFO[2025-10-02T21:19:07-06:00] Retrieved preflight installer result:
+k3s-agent-one:
+  info:
+  - Successfully installed package nfs-common
+  - Successfully probed module nfs
+  - Successfully probed module dm_crypt
+  - Successfully started service iscsid
+k3s-agent-three:
+  info:
+  - Successfully installed package nfs-common
+  - Successfully probed module nfs
+  - Successfully probed module dm_crypt
+  - Successfully started service iscsid
+k3s-agent-two:
+  info:
+  - Successfully installed package nfs-common
+  - Successfully probed module nfs
+  - Successfully probed module dm_crypt
+  - Successfully started service iscsid
+k3s-server:
+  info:
+  - Successfully installed package nfs-common
+  - Successfully probed module nfs
+  - Successfully probed module dm_crypt
+  - Successfully started service iscsid
+INFO[2025-10-02T21:19:07-06:00] Cleaning up preflight installer
+INFO[2025-10-02T21:19:07-06:00] Completed preflight installer. Use 'longhornctl check preflight' to check the result (on some os a reboot and a new install execution is required first)
+```
+
+Following that, run the `longhornctl --kube-config ~/.kube/config check preflight` again and you should not get any errors.
 
 ## Resolving Warnings
 
@@ -72,7 +113,7 @@ sudo systemctl status multipathd.socket
 Longhorn is installed via ArgoCD, as Longhorn has documentation on how to achieve this which can be found here:
 - https://longhorn.io/docs/1.9.0/deploy/install/install-with-argocd/
 
-Since we are using the GitOps approach for our cluster, this means we simply use the `argocd/apps/applications/longhorn.yml`
+Since we are using the GitOps approach for our cluster, this means we simply use the `argocd/apps/longhorn.yml`
 file and push it to GitHub.
 
 Once the install is complete, there is an ingress setup for Longhorn right in the application YAML file. This will

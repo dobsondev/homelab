@@ -2,7 +2,7 @@
 
 Adding an application involves a few steps to ensure that ArgoCD has everything it needs to deploy an application. We
 have setup ArgoCD to look at any applications (`yml` files) that are located in the following directory:
-- `argocd/apps/applications`
+- `argocd/apps`
 
 You can either create an application that leverages Helm charts, or just plain old Kubernetes config. Adding a new 
 `Application` to that folder will trigger ArgoCD to do a deployment. Below you will find more detailed instructions for
@@ -22,7 +22,7 @@ the same Helm chart which makes development simple.
 ### 1. Create Application YML
 
 Below you will find a template for an application that uses a Helm chart as part of the config. This should be put in
-the `argocd/apps/applications` directory.
+the `argocd/apps` directory.
 
 ```yml
 apiVersion: argoproj.io/v1alpha1
@@ -81,7 +81,7 @@ example of this can be seen with the `nginx-example` application.
 ### 1. Create Application YML
 
 Below you will find a template for an application that can be deployed via ArgoCD. This should be put in the 
-`argocd/apps/applications` directory.
+`argocd/apps` directory.
 
 ```yml
 apiVersion: argoproj.io/v1alpha1
