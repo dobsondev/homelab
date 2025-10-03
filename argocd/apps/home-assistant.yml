@@ -15,6 +15,12 @@ spec:
     - chart: home-assistant
       repoURL: https://pajikos.github.io/home-assistant-helm-chart/
       targetRevision: 0.3.23
+      helm:
+        values: |
+          configuration:
+            trusted_proxies:
+              - 10.42.0.0/16
+              - 10.43.0.0/16
   destination:
     server: https://kubernetes.default.svc
     namespace: home-assistant
