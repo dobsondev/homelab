@@ -11,6 +11,7 @@ spec:
     targetRevision: 6.42.0 # https://github.com/grafana/loki/blob/main/production/helm/loki/Chart.yaml
     helm:
       values: |
+        deploymentMode: SingleBinary
         loki:
           auth_enabled: false
           commonConfig:
