@@ -27,6 +27,7 @@ Create an admin password for Grafana, save it in 1Password and then apply it usi
 ```bash
 kubectl create secret generic grafana-admin-secret \
   --namespace=monitoring \
+  --from-literal=admin-user="<USER>" \
   --from-literal=admin-password="$(op read 'op://Private/<id>/password')"
 ```
 
