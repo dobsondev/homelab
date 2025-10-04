@@ -6,26 +6,50 @@ metadata:
 spec:
   project: default
   source:
-    chart: loki-stack
+    chart: loki
     repoURL: https://grafana.github.io/helm-charts
-    targetRevision: 2.10.2 # https://github.com/grafana/helm-charts/blob/main/charts/loki-stack/Chart.yaml
+    targetRevision: 6.22.0 # https://github.com/grafana/helm-charts/blob/main/charts/loki/Chart.yaml
     helm:
       values: |
+        deploymentMode: SingleBinary
         loki:
+          auth_enabled: false
+          commonConfig:
+            replication_factor: 1
+          storage:
+            type: 'filesystem'
+          schemaConfig:
+            configs:
+              - from: 2024-01-01
+                store: tsdb
+                object_store: filesystem
+                schema: v13
+                index:
+                  prefix: loki_index_
+                  period: 24h
+          limits_config:
+            retention_period: 744h
+        singleBinary:
+          replicas: 1
           persistence:
             enabled: true
-            storageClassName: longhorn
+            storageClass: longhorn
             size: 25Gi
-          config:
-            limits_config:
-              retention_period: 744h
-            table_manager:
-              retention_deletes_enabled: true
-              retention_period: 744h
-        promtail:
-          enabled: true
-        grafana:
-          enabled: false # Already installed via kube-prometheus-stack
+        chunksCache:
+          enabled: false
+        resultsCache:
+          enabled: false
+        lokiCanary:
+          enabled: false
+        test:
+          enabled: false
+        monitoring:
+          selfMonitoring:
+            enabled: false
+            grafanaAgent:
+              installOperator: false
+        gateway:
+          enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
