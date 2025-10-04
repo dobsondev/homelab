@@ -51,20 +51,15 @@ Port forward to get the UI to show up on your local machine:
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
-Navigate to [localhost:8080](http://localhost:8080) and login with `admin` and the password you got from the CLI. Note,
-you should update your password from the initial one provided as soon as possible. Store the password in a password
-manager.
+Navigate to [localhost:8080](http://localhost:8080) and login with `admin` and the password you got from the CLI. Note, you should update your password from the initial one provided as soon as possible. Store the password in a password manager.
 
-You can use this temporarily to check that everything is working as expected before creating an Ingress using the
-documentation below.
+You can use this temporarily to check that everything is working as expected before creating an Ingress using the documentation below.
 
 ## ArgoCD Ingress
 
-**Before adding an Ingress for ArgoCD, ensure you have followed the instructions for setting up [SSL](ssl.md) on the
-cluster.**
+**Before adding an Ingress for ArgoCD, ensure you have followed the instructions for setting up [SSL](ssl.md) on the cluster.**
 
-First, we need to patch ArgoCD to work with HTTP (or in `insecure` mode). We do this by enabling `insecure` mode and
-adding the URL we plan on using to the configuration:
+First, we need to patch ArgoCD to work with HTTP (or in `insecure` mode). We do this by enabling `insecure` mode and adding the URL we plan on using to the configuration:
 
 ```bash
 kubectl patch configmap argocd-cmd-params-cm -n argocd --type merge -p '{"data":{"server.insecure":"true"}}'

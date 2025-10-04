@@ -23,6 +23,7 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 
 - [GoTTH Stack Example](https://github.com/dobsondev/GoTTH-stack)
 - [NGINX Example](https://nginx.org/)
+- [Home Assitant](https://www.home-assistant.io/)
 
 ## Installed Tools
 
@@ -32,13 +33,28 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 - [Cloudflare](https://www.cloudflare.com/)
 - [Let's Encrypt](https://letsencrypt.org/)
 - [Longhorn](https://longhorn.io/)
+- [Grafana](https://grafana.com/)
+- [Prometheus](https://prometheus.io/)
+- [Loki](https://grafana.com/oss/loki/)
 
 ## Setup
 
-Follow along with the documentation in this order if you want to roll out your own cluster:
+Follow along with the documentation in this order if you want to roll out your own cluster. The first section is the setup before actually installing ArgoCD and using the GitOps approach to deploy things. This is almost like a preflight set of steps to get everything ready for what we are going to install:
 
-1. [Setup Machines](docs/setup.md)
-2. [Setup SSL](docs/ssl.md)
-3. [Prep Longhorn](docs/longhorn.md)
-4. [Install Argo CD](docs/argocd.md)
-5. [Add More Applications](docs/add-applications.md)
+1. [Setup Machines](docs/setup-nodes.md)
+2. [Setup SSL](docs/ssl-setup.md)
+3. [Setup Monitoring](docs/monitoring-setup.md)
+4. [Setup Longhorn](docs/longhorn-setup.md)
+
+At this point, you will install ArgoCD and start using the GitOps approach to deploy things:
+
+- [Setup Argo CD](docs/setup-argocd.md)
+
+## Working with the Cluster
+
+Documentation on how to work with the different parts of the cluster can be found below:
+
+- [Working with Applications](docs/working-with-applications.md)
+- [Working with SSL](docs/working-with-ssl.md)
+- [Working with Longhorn](docs/working-with-longhorn.md)
+- [WIP: Working with Monitoring](docs/working-with-monitoring.md)
