@@ -11,6 +11,8 @@ spec:
     targetRevision: 77.13.0 # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/Chart.yaml
     helm:
       values: |
+        crds:
+          enabled: true
         prometheus:
           prometheusSpec:
             retention: 30d
@@ -48,6 +50,7 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - Replace=true
   ignoreDifferences:
     - group: ""
       kind: Secret
