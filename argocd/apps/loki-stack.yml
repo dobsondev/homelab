@@ -8,10 +8,9 @@ spec:
   source:
     chart: loki
     repoURL: https://grafana.github.io/helm-charts
-    targetRevision: 6.22.0 # https://github.com/grafana/helm-charts/blob/main/charts/loki/Chart.yaml
+    targetRevision: 6.42.0 # https://github.com/grafana/loki/blob/main/production/helm/loki/Chart.yaml
     helm:
       values: |
-        deploymentMode: SingleBinary
         loki:
           auth_enabled: false
           commonConfig:
@@ -35,6 +34,12 @@ spec:
             enabled: true
             storageClass: longhorn
             size: 25Gi
+        read:
+          replicas: 0
+        backend:
+          replicas: 0
+        write:
+          replicas: 0
         chunksCache:
           enabled: false
         resultsCache:
