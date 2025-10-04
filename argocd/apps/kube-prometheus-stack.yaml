@@ -34,7 +34,7 @@ spec:
           additionalDataSources:
             - name: Loki
               type: loki
-              url: http://loki-gateway:80
+              url: http://loki-stack-gateway:80
               access: proxy
               isDefault: false
           ingress:
