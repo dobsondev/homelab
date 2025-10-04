@@ -75,8 +75,6 @@ spec:
         gateway:
           enabled: true
           replicas: 1
-        promtail:
-          enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
