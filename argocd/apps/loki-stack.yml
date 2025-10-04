@@ -54,7 +54,8 @@ spec:
             grafanaAgent:
               installOperator: false
         gateway:
-          enabled: false
+          enabled: true
+          replicas: 1
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
