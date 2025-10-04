@@ -13,3 +13,8 @@ For logging we have:
 - **Promtail** - Log collector and shipper to Loki
 
 This is often called the "PLG Stack" (Prometheus, Loki, Grafana) and is the de facto standard for Kubernetes observability in homelabs.
+
+## Loki
+
+- https://github.com/grafana/loki/tree/main/production/helm/loki
+- https://grafana.com/docs/loki/latest/setup/install/helm/install-monolithic/
