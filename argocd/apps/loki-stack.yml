@@ -17,7 +17,11 @@ spec:
             storageClassName: longhorn
             size: 25Gi
           config:
-            retention_period: 744h # 31 days
+            limits_config:
+              retention_period: 744h
+            table_manager:
+              retention_deletes_enabled: true
+              retention_period: 744h
         promtail:
           enabled: true
         grafana:
