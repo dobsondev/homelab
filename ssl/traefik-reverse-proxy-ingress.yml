@@ -1,0 +1,31 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: kube-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`traefik.homelab.dobson.dev`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+    - match: Host(`traefik.homelab.dobson.dev`) && PathPrefix(`/`)
+      kind: Rule
+      middlewares:
+        - name: redirect-to-dashboard
+      services:
+        - name: api@internal
+          kind: TraefikService
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-dashboard
+  namespace: kube-system
+spec:
+  redirectRegex:
+    regex: ^http://traefik.homelab.dobson.dev/$
+    replacement: http://traefik.homelab.dobson.dev/dashboard/
