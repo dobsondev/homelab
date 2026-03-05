@@ -164,3 +164,9 @@ kubectl apply -f ssl/traefik-dashboard-ingress-production.yml
 ```
 
 At this point you should be able to visit the domain you setup for the Traefik ingress and it should have a valid certificate attached.
+
+Finally, if you want Traefik to have it's own domain and not use port `:8080` for accessing the dashboard, then apply the reverse proxy ingress for it:
+
+```bash
+kubectl apply -f ssl/traefik-reverse-proxy-ingress.yml
+```
