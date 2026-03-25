@@ -24,6 +24,7 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 - [GoTTH Stack Example](https://github.com/dobsondev/GoTTH-stack)
 - [NGINX Example](https://nginx.org/)
 - [Home Assitant](https://www.home-assistant.io/)
+- [n8n](https://n8n.io/)
 
 ## Installed Tools
 
