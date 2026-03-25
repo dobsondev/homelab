@@ -22,9 +22,13 @@ jobs:
       - name: Lint YAML Files (Relaxed Rules)
         run: yamllint -d relaxed argocd/**/*.yml
 
-  lint-gotth-app-helm-chart:
-    name: Lint Gotth App Helm Chart
+  lint-custom-helm-charts:
+    name: Lint Custom Helm Charts
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        chart-name:
+          - gotth-app
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -35,4 +39,4 @@ jobs:
         uses: azure/setup-helm@v5.0.0
 
       - name: Lint Helm Chart
-        run: helm lint argocd/helm/charts/gotth-app
+        run: helm lint argocd/helm/charts/${{ matrix.chart-name }}

@@ -4,7 +4,7 @@ metadata:
   name: gotth-stack
   namespace: argocd
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
@@ -13,8 +13,8 @@ spec:
     targetRevision: main
     helm:
       valueFiles:
-        # Note, this is relative path to the chart above (argocd/helm/<chart>)
-        - ../../values/gotth-stack.yml
+      # Note, this is relative path to the chart above (argocd/helm/<chart>)
+      - ../../values/gotth-stack.yml
   destination:
     namespace: gotth-stack
     name: in-cluster
@@ -23,4 +23,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
