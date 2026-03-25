@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  project: default
+  sources:
+    # https://github.com/n8n-io/n8n-hosting/tree/main/charts/n8n
+    - chart: n8n
+      repoURL: oci://ghcr.io/n8n-io/n8n-helm-chart
+      targetRevision: 1.0.0 # Current as of March 2026
+      helm:
+        # Standalone values, see: 
+        # https://github.com/n8n-io/n8n-hosting/blob/main/charts/n8n/examples/standalone.yaml
+        values: |
+          queueMode:
+            enabled: false
+          database:
+            type: sqlite
+            useExternal: false
+          redis:
+            enabled: false
+          persistence:
+            enabled: true
+            size: 5Gi
+          secretRefs:
+            existingSecret: "n8n-secrets"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: n8n
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: n8n-frontend-ingress
+  namespace: n8n
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  tls:
+  - hosts:
+    - n8n.homelab.dobson.dev
+    secretName: n8n-tls
+  rules:
+  - host: n8n.homelab.dobson.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: n8n
+            port:
+              number: 5678
