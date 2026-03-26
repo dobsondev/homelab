@@ -23,6 +23,9 @@ kubectl create secret generic n8n-secrets \
   --from-literal=N8N_HOST=localhost \
   --from-literal=N8N_PORT=5678 \
   --from-literal=N8N_PROTOCOL=http \
-  --from-literal=task-runner-auth-token=$(openssl rand -base64 32) \
+  -n n8n
+
+kubectl create secret generic n8n-task-runners \
+  --from-literal=N8N_RUNNERS_AUTH_TOKEN=$(openssl rand -base64 32) \
   -n n8n
 ```

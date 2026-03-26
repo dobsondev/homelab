@@ -35,8 +35,8 @@ spec:
           taskRunners:
             enabled: true
             authToken:
-              existingSecret: "n8n-secrets"
-              existingSecretKey: "task-runner-auth-token"
+              existingSecret: "n8n-task-runners"
+              existingSecretKey: "N8N_RUNNERS_AUTH_TOKEN"
   destination:
     server: https://kubernetes.default.svc
     namespace: n8n
