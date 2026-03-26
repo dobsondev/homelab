@@ -32,6 +32,11 @@ spec:
             size: 5Gi
           secretRefs:
             existingSecret: "n8n-secrets"
+          taskRunners:
+            enabled: true
+            authToken:
+              existingSecret: "n8n-secrets"
+              existingSecretKey: "task-runner-auth-token"
   destination:
     server: https://kubernetes.default.svc
     namespace: n8n
