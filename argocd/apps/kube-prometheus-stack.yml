@@ -38,6 +38,25 @@ spec:
               url: http://loki-stack-gateway:80
               access: proxy
               isDefault: false
+              jsonData:
+                derivedFields:
+                  - datasourceUid: tempo
+                    matcherRegex: '"traceID":"(\w+)"'
+                    name: TraceID
+                    url: '$${__value.raw}'
+            - name: Tempo
+              type: tempo
+              url: http://tempo.monitoring.svc.cluster.local:3100
+              access: proxy
+              isDefault: false
+              uid: tempo
+              jsonData:
+                tracesToLogsV2:
+                  datasourceUid: loki
+                  filterByTraceID: true
+                  filterBySpanID: false
+                serviceMap:
+                  datasourceUid: prometheus
           ingress:
             enabled: true
             ingressClassName: traefik
