@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gotth-stack
+  name: go-logging-example-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,9 +14,9 @@ spec:
     helm:
       valueFiles:
       # Note, this is relative path to the chart above (argocd/helm/<chart>)
-      - ../../values/gotth-stack.yml
+      - ../../values/go-logging-example-app.yml
   destination:
-    namespace: gotth-stack
+    namespace: go-logging-example-app
     name: in-cluster
   syncPolicy:
     automated:
