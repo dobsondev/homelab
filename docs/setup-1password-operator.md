@@ -6,12 +6,40 @@
 
 Go to 1password.com, login and then navigate to "Developer", "Connect a Server", and then setup everything. You should get a credentails JSON file and a token from 1Password that you will need to use to setup the operator.
 
-```bash
-kubectl create secret generic onepassword-helm-credentials \
-  --from-literal=values.yaml="connect:
-  credentials_base64: $(cat $HOME/Downloads/1password-credentials.json | base64 | tr -d '\n')" \
-  -n argocd
+Create the following file:
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: onepassword-operator
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: connect
+    repoURL: https://1password.github.io/connect-helm-charts
+    targetRevision: 2.4.1
+    helm:
+      values: |
+        connect:
+          credentials_base64: <your-base64-value>
+        operator:
+          create: true
+          token:
+            name: onepassword-operator-token
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: onepassword
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 ```
+
+Then apply it manually. You need to do this because it contains the `credentials_base64` which is a secret.
 
 ```bash
 kubectl create secret generic onepassword-operator-token \
