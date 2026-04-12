@@ -15,7 +15,7 @@ data:
         path: /api/annotations
         body: |
           {
-            "text": "Deployed {{.app.metadata.name}} → {{.app.status.sync.revision}}",
+            "text": "Deployed {{.app.metadata.name}} → {{.app.status.summary.images}}",
             "tags": ["deployment", "{{.app.metadata.name}}"],
             "time": {{mul (now | unixEpoch) 1000}}
           }
