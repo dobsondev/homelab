@@ -46,13 +46,13 @@ spec:
                     url: '$${__value.raw}'
             - name: Tempo
               type: tempo
-              url: http://tempo.monitoring.svc.cluster.local:3100
+              url: http://tempo.monitoring.svc.cluster.local:3200
               access: proxy
               isDefault: false
               uid: tempo
               jsonData:
                 tracesToLogsV2:
-                  datasourceUid: loki
+                  datasourceUid: P8E80F9AEF21F6940
                   filterByTraceID: true
                   filterBySpanID: false
                 serviceMap:
