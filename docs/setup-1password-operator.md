@@ -42,6 +42,10 @@ spec:
 Then apply it manually. You need to do this because it contains the `credentials_base64` which is a secret.
 
 ```bash
+kubectl apply -f 1password-operator.yml
+```
+
+```bash
 kubectl create secret generic onepassword-operator-token \
   --from-literal=token=<your-connect-token> \
   -n onepassword
