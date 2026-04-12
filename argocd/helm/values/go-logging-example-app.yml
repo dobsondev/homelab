@@ -1,21 +1,16 @@
 name: go-logging-example-app
 component: application
-
 replicaCount: 1
-
 image:
   repository: ghcr.io/dobsondev/go-logging-example-app
-  tag: 586fd2d
+  tag: v0.0.1
   pullPolicy: IfNotPresent
-
 service:
   type: ClusterIP
   port: 8080
-
 ingress:
   enabled: true
   host: go-logging-example-app.homelab.dobson.dev
-
 resources:
   limits:
     cpu: 200m
