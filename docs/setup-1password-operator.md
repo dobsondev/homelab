@@ -7,9 +7,10 @@
 Go to 1password.com, login and then navigate to "Developer", "Connect a Server", and then setup everything. You should get a credentails JSON file and a token from 1Password that you will need to use to setup the operator.
 
 ```bash
-kubectl create secret generic op-credentials \
-  --from-file=1password-credentials.json \
-  -n onepassword
+kubectl create secret generic onepassword-helm-credentials \
+  --from-literal=values.yaml="connect:
+  credentials_base64: $(cat $HOME/Downloads/1password-credentials.json | base64 | tr -d '\n')" \
+  -n argocd
 ```
 
 ```bash
