@@ -24,7 +24,7 @@ data:
     url: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
     headers:
     - name: Authorization
-      value: Bearer $GRAFANA_API_TOKEN
+      value: Bearer $grafana_api_token
     - name: Content-Type
       value: application/json
 ---
