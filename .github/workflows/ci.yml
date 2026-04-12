@@ -5,7 +5,7 @@ name: CI
 # following checks:
 # 1. Lints all YAML files in the argocd/ directory using yamllint
 # 2. Lints any custom Helm Charts:
-#    - Gotth App Helm Chart located at argocd/helm/charts/gotth-app
+#    - Basic Service Helm Chart located at argocd/helm/charts/basic-service
 #
 
 on:
@@ -28,7 +28,7 @@ jobs:
     strategy:
       matrix:
         chart-name:
-          - gotth-app
+          - basic-service
     steps:
       - name: Checkout
         uses: actions/checkout@v3
