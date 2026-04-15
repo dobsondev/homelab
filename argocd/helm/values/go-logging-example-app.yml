@@ -18,3 +18,8 @@ resources:
   requests:
     cpu: 50m
     memory: 64Mi
+env:
+  - name: OTEL_EXPORTER_OTLP_ENDPOINT
+    value: "tempo.monitoring.svc.cluster.local:4318"
+  - name: SERVICE_NAME
+    value: "go-logging-example-app"
