@@ -20,9 +20,8 @@ spec:
         # Standalone values, see:
         # https://github.com/n8n-io/n8n-hosting/blob/main/charts/n8n/examples/standalone.yaml
         values: |
-          main:
-            deploymentStrategy:
-              type: Recreate
+          strategy:
+            type: Recreate
           queueMode:
             enabled: false
           database:
