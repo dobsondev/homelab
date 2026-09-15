@@ -33,10 +33,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - longhorn.homelab.dobson.dev
+    - longhorn.k3s.dobson.dev
     secretName: longhorn-tls
   rules:
-  - host: longhorn.homelab.dobson.dev
+  - host: longhorn.k3s.dobson.dev
     http:
       paths:
       - path: /

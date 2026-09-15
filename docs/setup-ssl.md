@@ -34,14 +34,13 @@ kubectl patch deployment traefik -n kube-system --type='json' -p='[
 Now, check your Traefik config with the following:
 
 ```bash
-kubectl get deployment -n kube-system traefik -o jsonpath='{.spec.template.spec.containers[0].args}' | tr ',' '\n'
+kubectl get deployment -n kube-system traefik -o jsonpath='{.spec.template.spec.containers[0].args}' | tr ',' '\n' | grep api
 ```
 
 You will want to see the following two entries in the list (note: `--api.dashboard=true` is usually enabled by default on K3s so we don't usually need to patch it in):
 
 ```json
 "--api.dashboard=true"
-...
 "--api.insecure=true"
 ```
 
@@ -53,13 +52,17 @@ Since K3s comes with a built in Load Balancer, we can add the Traefik dashboard 
 kubectl apply -f ssl/traefik-dashboard-lb.yml
 ```
 
+At this point you should be able to see Traefik at:
+
+- http://192.168.4.200:8080/dashboard/
+
 ### Install `cert-manager`
 
 Install `cert-manager` with Let's Encrypt:
 
 ```bash
 # Install cert-manager
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.21.2/cert-manager.yaml
 
 # Wait for cert-manager to be ready
 kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=cert-manager -n cert-manager --timeout=300s
@@ -72,7 +75,7 @@ To make sure you get the most up-to-date version of `cert-manager`, check the in
 You can confirm that `cert-manager` was installed using the following command:
 
 ```bash
-kubectl get nodes -n cert-manager -o wide
+kubectl get pods -n cert-manager -o wide
 ```
 
 Additionally, you can ensure the custom resources have been installed by checking the following command:
@@ -92,12 +95,12 @@ The first thing we need to do is create a Secret with our Cloudflare API token. 
 - `Zone.Zone: Read`
 - `Zone.DNS: Edit`
 
-Paste that secret into the the `secret-cloudflare-token.yml` file and apply it using (assuming you have 1Password and keep the secret in 1Password):
+If you save this in 1Password, be sure the field you save it to is called `cloudflare-token` since that is what our setup will expected.
+
+Then apply the `cloudflare-token.yml` manifest (again, switch out the 1Password references for your own references if you are setting this up yourself):
 
 ```bash
-kubectl create secret generic cloudflare-api-token \
-  --namespace=cert-manager \
-  --from-literal=cloudflare-token="$(op read 'op://Private/<id>/password')"
+kubectl apply -f ssl/cloudflare-token.yml
 ```
 
 ### Create Staging Certificate
@@ -117,9 +120,14 @@ kubectl apply -f ssl/certs/staging-cert.yml
 You can follow the progress of the certificate being issued by using:
 
 ```bash
-kubectl get pods -n cert-manager
-# Copy paste the one that doesn't include `-cainjector` or `-webhook` in the name
-kubectl logs -n cert-manager -f <cert-manager-pod>
+kubectl logs -n cert-manager -f -l app.kubernetes.io/component=controller
+```
+
+You can check the status of the particular certificate we are trying to setup with the following commands:
+
+```bash
+kubectl get certificate,order,challenge -A
+kubectl describe certificate homelab-dobson-dev-staging -n default
 ```
 
 You should receieve a message in the logs that contains `"certificate issued"` when it succeeds. This can take a few minutes. Once the certificate is ready, you should see it when you run the following command:
@@ -145,6 +153,22 @@ kubectl apply -f ssl/traefik-dashboard-ingress-staging.yml
 
 This file is setup to create an ingress using our TLS ceritificate and point it to our load balancer that we have already created. Once this is done, navigate to your chosen domain name. You will still get a Certificate Authority error, but you can see the certificate was issued by the staging client which means everything is working.
 
+As before, you can check the status of this certificate with the following:
+
+```bash
+kubectl get ingress traefik-dashboard-ingress -n kube-system
+kubectl describe ingress traefik-dashboard-ingress -n kube-system
+
+kubectl get certificate traefik-staging-tls -n kube-system
+kubectl describe certificate traefik-staging-tls -n kube-system
+```
+
+Once the certificate has been issued, you can go to the website. For my setup, that is at:
+
+- https://traefik.k3s.dobson.dev/dashboard
+
+Note: Let's Encrypt's staging environment issues real certificates with the correct chain/domain validation, but they're signed by a staging CA that browsers deliberately don't trust. You will get a `Not Secure` warning in your browser for the staging certificate and that is to be expected. Your browser showing `Not Secure` / a cert-warning page here is actually confirmation everything's working correctly, not a sign of a problem.
+
 ### Production Setup
 
 Before getting everything ready for production, let's clean up the staging config:
@@ -163,10 +187,14 @@ kubectl apply -f ssl/certs/production-cert.yml
 kubectl apply -f ssl/traefik-dashboard-ingress-production.yml
 ```
 
-At this point you should be able to visit the domain you setup for the Traefik ingress and it should have a valid certificate attached.
-
-Finally, if you want Traefik to have it's own domain and not use port `:8080` for accessing the dashboard, then apply the reverse proxy ingress for it:
+Check on things:
 
 ```bash
-kubectl apply -f ssl/traefik-reverse-proxy-ingress.yml
+kubectl get ingress traefik-dashboard-ingress -n kube-system
+kubectl describe ingress traefik-dashboard-ingress -n kube-system
+
+kubectl get certificate traefik-tls -n kube-system
+kubectl describe certificate traefik-tls -n kube-system
 ```
+
+At this point you should be able to visit the domain you setup for the Traefik ingress and it should have a valid certificate attached.

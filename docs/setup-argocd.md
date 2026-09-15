@@ -63,7 +63,7 @@ First, we need to patch ArgoCD to work with HTTP (or in `insecure` mode). We do 
 
 ```bash
 kubectl patch configmap argocd-cmd-params-cm -n argocd --type merge -p '{"data":{"server.insecure":"true"}}'
-kubectl patch configmap argocd-cm -n argocd --type merge -p '{"data":{"url":"https://argocd.homelab.dobson.dev"}}'
+kubectl patch configmap argocd-cm -n argocd --type merge -p '{"data":{"url":"https://argocd.k3s.dobson.dev"}}'
 ```
 
 Next, we need to restart the `argocd-server` for the above changes to take effect:

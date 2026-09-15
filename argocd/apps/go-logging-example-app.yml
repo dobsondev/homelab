@@ -27,7 +27,7 @@ spec:
           port: 8080
         ingress:
           enabled: true
-          host: go-logging-example-app.homelab.dobson.dev
+          host: go-logging-example-app.k3s.dobson.dev
         resources:
           limits:
             cpu: 200m

@@ -19,7 +19,7 @@ service:
 
 ingress:
   enabled: false
-  host: example.homelab.dobson.dev
+  host: example.k3s.dobson.dev
 
 resources:
   limits:

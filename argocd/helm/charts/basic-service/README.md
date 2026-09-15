@@ -26,7 +26,7 @@ A general-purpose Helm chart for deploying containerized services into the homel
 | `service.port` | `3000` | Port exposed by the service and container |
 | `service.nodePort` | _(unset)_ | NodePort value (30000–32767), only used when `service.type: NodePort` |
 | `ingress.enabled` | `false` | Enable the Ingress resource |
-| `ingress.host` | `example.homelab.dobson.dev` | Hostname for the Ingress rule and TLS certificate |
+| `ingress.host` | `example.k3s.dobson.dev` | Hostname for the Ingress rule and TLS certificate |
 | `resources.limits.cpu` | `500m` | CPU limit |
 | `resources.limits.memory` | `512Mi` | Memory limit |
 | `resources.requests.cpu` | `100m` | CPU request |
@@ -76,7 +76,7 @@ Set `ingress.enabled: true` and provide a hostname. cert-manager will automatica
 ```yaml
 ingress:
   enabled: true
-  host: my-service.homelab.dobson.dev
+  host: my-service.k3s.dobson.dev
 ```
 
 ### NodePort Service
@@ -154,7 +154,7 @@ service:
 
 ingress:
   enabled: true
-  host: my-service.homelab.dobson.dev
+  host: my-service.k3s.dobson.dev
 
 resources:
   limits:

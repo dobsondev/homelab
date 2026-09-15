@@ -42,10 +42,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - home-assistant.homelab.dobson.dev
+    - home-assistant.k3s.dobson.dev
     secretName: home-assistant-tls
   rules:
-  - host: home-assistant.homelab.dobson.dev
+  - host: home-assistant.k3s.dobson.dev
     http:
       paths:
       - path: /

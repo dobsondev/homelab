@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - traefik.homelab.dobson.dev
+    - traefik.k3s.dobson.dev
     secretName: traefik-staging-tls
   rules:
-  - host: traefik.homelab.dobson.dev
+  - host: traefik.k3s.dobson.dev
     http:
       paths:
       - path: /

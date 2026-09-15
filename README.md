@@ -36,9 +36,10 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 Follow along with the documentation in this order if you want to roll out your own cluster. The first section is the setup before actually installing ArgoCD and using the GitOps approach to deploy things. This is almost like a preflight set of steps to get everything ready for what we are going to install:
 
 1. [Setup Machines](docs/setup-nodes.md)
-2. [Setup SSL](docs/setup-ssl.md)
-3. [Setup Monitoring](docs/setup-monitoring.md)
-4. [Setup Longhorn](docs/setup-longhorn.md)
+2. [Setup 1Password Operator](docs/setup-1password-operator.md)
+3. [Setup SSL](docs/setup-ssl.md)
+4. [Setup Monitoring](docs/setup-monitoring.md)
+5. [Setup Longhorn](docs/setup-longhorn.md)
 
 At this point, you will install ArgoCD and start using the GitOps approach to deploy things:
 

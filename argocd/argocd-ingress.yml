@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - argocd.homelab.dobson.dev
+    - argocd.k3s.dobson.dev
     secretName: argocd-tls
   rules:
-  - host: argocd.homelab.dobson.dev
+  - host: argocd.k3s.dobson.dev
     http:
       paths:
       - path: /

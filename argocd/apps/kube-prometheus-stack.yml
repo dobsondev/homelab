@@ -66,11 +66,11 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-production
             hosts:
-              - grafana.homelab.dobson.dev
+              - grafana.k3s.dobson.dev
             tls:
               - secretName: grafana-tls
                 hosts:
-                  - grafana.homelab.dobson.dev
+                  - grafana.k3s.dobson.dev
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring

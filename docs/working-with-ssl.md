@@ -24,15 +24,15 @@ When you create an ingress with the following configuration:
 `cert-manager` will automatically:
 
 1. Creates a Certificate resource **in that namespace**
-2. Requests a certificate for the specific hostname (e.g., `gotth.homelab.dobson.dev`)
+2. Requests a certificate for the specific hostname (e.g., `gotth.k3s.dobson.dev`)
 3. Stores it in a secret named `<SERVICE_NAME>-tls` **in that namespace** (e.g. `gotth-stack-tls`)
 
 So what actually happens is that multiple secrets with the same name but in different namespaces are created:
 
 - `wildcard-tls` in `default` namespace (manual wildcard cert)
-- `gotth-stack-tls` in `gotth-stack` namespace (auto-created for `gotth.homelab.dobson.dev`)
-- `traefik-tls` in `kube-system` namespace (auto-created for `traefik.homelab.dobson.dev`)
-- `nginx-tls` in `nginx-example` namespace (auto-created for `nginx.homelab.dobson.dev`)
+- `gotth-stack-tls` in `gotth-stack` namespace (auto-created for `gotth.k3s.dobson.dev`)
+- `traefik-tls` in `kube-system` namespace (auto-created for `traefik.k3s.dobson.dev`)
+- `nginx-tls` in `nginx-example` namespace (auto-created for `nginx.k3s.dobson.dev`)
 
 ### Helm Behaviour
 
