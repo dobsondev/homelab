@@ -1,6 +1,6 @@
-# 🏠 Homelab
+# K3s Cluster
 
-This repo contains all of the installation instructions and documentation for my homelab.
+This repo contains all of the installation instructions and documentation for my k3s Cluster running in my homelab. I use this to learn more about Kubernetes and observability.
 
 ## Cluster Information
 
@@ -18,13 +18,6 @@ I am using a bunch of old 1-litre computers to run the cluster. They are small, 
 - Lenovo ThinkCentre M720q - i5-8400T / 8 GB RAM / 240 GB NVMe
 
 I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
-
-## Installed Applications
-
-- [GoTTH Stack Example](https://github.com/dobsondev/GoTTH-stack)
-- [NGINX Example](https://nginx.org/)
-- [Home Assitant](https://www.home-assistant.io/)
-- [n8n](https://n8n.io/)
 
 ## Installed Tools
 
