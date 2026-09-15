@@ -34,6 +34,7 @@ spec:
             size: 10Gi
           deploymentStrategy:
             type: Recreate
+            rollingUpdate: null
           additionalDataSources:
             - name: Loki
               type: loki
