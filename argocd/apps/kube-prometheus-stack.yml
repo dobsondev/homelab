@@ -32,6 +32,8 @@ spec:
           persistence:
             enabled: true
             size: 10Gi
+          deploymentStrategy:
+            type: Recreate
           additionalDataSources:
             - name: Loki
               type: loki
