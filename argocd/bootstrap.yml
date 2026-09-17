@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: applications
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: default
@@ -10,7 +12,7 @@ spec:
   project: default
   source:
     # Public repo so we are going to use https instead of ssh
-    repoURL: https://github.com/dobsondev/homelab.git
+    repoURL: https://github.com/dobsondev/k3s-cluster.git
     targetRevision: main
     path: argocd/apps
   syncPolicy:

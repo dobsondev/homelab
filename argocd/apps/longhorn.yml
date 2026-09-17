@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: longhorn
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   syncPolicy:
     automated:
@@ -14,7 +16,7 @@ spec:
   sources:
     - chart: longhorn
       repoURL: https://charts.longhorn.io/
-      targetRevision: v1.9.0 # Current as of July 2025
+      targetRevision: 1.12.1 # Current as of September 2026, matches longhornctl version in docs/setup-longhorn.md
       helm:
         values: |
           preUpgradeChecker:

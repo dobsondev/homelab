@@ -25,7 +25,7 @@ data:
     url: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
     headers:
     - name: Authorization
-      value: Bearer $grafana_api_token
+      value: Bearer $grafana-api-token
     - name: Content-Type
       value: application/json
 ---
@@ -35,4 +35,4 @@ metadata:
   name: argocd-notifications-secret
   namespace: argocd
 spec:
-  itemPath: "vaults/Homelab/items/wz7gru43u5p76aa7mpgxqo4lrq"
+  itemPath: "vaults/k3s-cluster/items/wz7gru43u5p76aa7mpgxqo4lrq"

@@ -12,13 +12,24 @@ Installation instructions for ArgoCD can be found here:
 
 ```bash
 kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --server-side --force-conflicts
 ```
 
-## Install ArgoCD Custom Resource Definitions
+Note: `--server-side` is required here — the `applicationsets.argoproj.io` CRD is large enough to exceed the 262144-byte limit on the `kubectl.kubernetes.io/last-applied-configuration` annotation used by regular client-side apply. `--force-conflicts` avoids field-ownership conflicts if this command is ever re-run (e.g. for an ArgoCD upgrade).
+
+## Create Repo Secret
+
+Create a secret that will authenticate us with GitHub to connect to the repo:
 
 ```bash
-kubectl apply -k https://github.com/argoproj/argo-cd/manifests/crds\?ref\=stable
+kubectl create secret generic k3s-cluster-repo \
+  --namespace argocd \
+  --from-literal=type=git \
+  --from-literal=url=https://github.com/dobsondev/k3s-cluster.git \
+  --from-literal=username=dobsondev \
+  --from-literal=password="$(op read 'op://Private/k3s-cluster GitHub Access Token/credential')"
+
+kubectl label secret k3s-cluster-repo -n argocd argocd.argoproj.io/secret-type=repository
 ```
 
 ## Bootstrap Application
@@ -57,7 +68,7 @@ You can use this temporarily to check that everything is working as expected bef
 
 ## ArgoCD Ingress
 
-**Before adding an Ingress for ArgoCD, ensure you have followed the instructions for setting up [SSL](ssl.md) on the cluster.**
+**Before adding an Ingress for ArgoCD, ensure you have followed the instructions for setting up [SSL](setup-ssl.md) on the cluster.**
 
 First, we need to patch ArgoCD to work with HTTP (or in `insecure` mode). We do this by enabling `insecure` mode and adding the URL we plan on using to the configuration:
 

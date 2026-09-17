@@ -37,9 +37,9 @@ spec:
             memory: 64Mi
         env:
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
-            value: "tempo.monitoring.svc.cluster.local:4318"
+            value: "alloy.monitoring.svc.cluster.local:4318"
           - name: SERVICE_NAME
-    value: "go-logging-example-app"
+            value: "go-logging-example-app"
   destination:
     namespace: go-logging-example-app
     name: in-cluster

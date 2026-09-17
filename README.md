@@ -30,6 +30,8 @@ I run the three HP computers as K3s agents, and the Lenovo as a K3s server.
 - [Grafana](https://grafana.com/)
 - [Prometheus](https://prometheus.io/)
 - [Loki](https://grafana.com/oss/loki/)
+- [Grafana Alloy](https://grafana.com/docs/alloy/latest/)
+- [Tempo](https://grafana.com/oss/tempo/)
 
 ## Setup
 
@@ -38,8 +40,7 @@ Follow along with the documentation in this order if you want to roll out your o
 1. [Setup Machines](docs/setup-nodes.md)
 2. [Setup 1Password Operator](docs/setup-1password-operator.md)
 3. [Setup SSL](docs/setup-ssl.md)
-4. [Setup Monitoring](docs/setup-monitoring.md)
-5. [Setup Longhorn](docs/setup-longhorn.md)
+4. [Setup Longhorn](docs/setup-longhorn.md)
 
 At this point, you will install ArgoCD and start using the GitOps approach to deploy things:
 
@@ -52,8 +53,4 @@ Documentation on how to work with the different parts of the cluster can be foun
 - [Working with Applications](docs/working-with-applications.md)
 - [Working with SSL](docs/working-with-ssl.md)
 - [Working with Longhorn](docs/working-with-longhorn.md)
-- [WIP: Working with Monitoring](docs/working-with-monitoring.md)
-
-## Recommended Tools 
-
-- [yamllint](https://github.com/adrienverge/yamllint)
+- [Working with Monitoring](docs/working-with-monitoring.md)

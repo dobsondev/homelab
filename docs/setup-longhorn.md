@@ -6,12 +6,30 @@
 
 ## Installing CLI Tool
 
-Do the following from your client machine (note: I have an Apple Silicon chip, if you do not then your command will change):
+Do the following from your client machine, not the servers you are running the cluster on (note: I have an Apple Silicon chip, if you do not then your command will change):
 
 ```bash
-curl -L https://github.com/longhorn/cli/releases/download/v1.9.0/longhornctl-darwin-arm64 -o longhornctl
+rm -rf /usr/local/bin/longhornctl
+curl -L https://github.com/longhorn/cli/releases/download/v1.12.1/longhornctl-darwin-arm64 -o longhornctl
 chmod +x longhornctl
 sudo mv ./longhornctl /usr/local/bin/longhornctl
+```
+
+Note: version `1.12.1` was released on August 13, 2026.
+
+The general command for install is this:
+
+```bash
+rm -rf /usr/local/bin/longhornctl
+curl -L https://github.com/longhorn/cli/releases/download/${LonghornVersion}/longhornctl-${OS}-${ARCH} -o longhornctl
+chmod +x longhornctl
+mv ./longhornctl /usr/local/bin/longhornctl
+```
+
+Verify you are installed with:
+
+```bash
+longhornctl version
 ```
 
 ## Preflight Check
@@ -21,53 +39,55 @@ sudo mv ./longhornctl /usr/local/bin/longhornctl
 Again, this should be run from your client machine (not a node on the cluster):
 
 ```bash
-longhornctl --kube-config ~/.kube/config check preflight
+longhornctl --kubeconfig ~/.kube/config check preflight
 ```
 
 If you get any errors, then you need to run the `longhornctl install preflight` command:
 
 ```bash
-longhornctl --kube-config ~/.kube/config install preflight
+longhornctl --kubeconfig ~/.kube/config install preflight
+```
+
+If you get an error that says `ERRO[2026-09-16T09:17:36-06:00] Failed to run preflight installer: namespaces "longhorn-system" not found`, then you just have to make that namespace manually:
+
+```bash
+kubectl create namespace longhorn-system
 ```
 
 You should get output similar to this:
 
 ```
-INFO[2025-10-02T21:18:42-06:00] Initializing preflight installer
-INFO[2025-10-02T21:18:42-06:00] Cleaning up preflight installer
-INFO[2025-10-02T21:18:42-06:00] Running preflight installer
-INFO[2025-10-02T21:18:42-06:00] Installing dependencies with package manager
-INFO[2025-10-02T21:19:07-06:00] Installed dependencies with package manager
-INFO[2025-10-02T21:19:07-06:00] Retrieved preflight installer result:
+INFO[2026-09-16T09:18:37-06:00] Initializing preflight installer             
+INFO[2026-09-16T09:18:37-06:00] Cleaning up preflight installer              
+INFO[2026-09-16T09:18:37-06:00] Running preflight installer                  
+INFO[2026-09-16T09:18:37-06:00] Installing dependencies with package manager 
+INFO[2026-09-16T09:18:59-06:00] Installed dependencies with package manager  
+INFO[2026-09-16T09:18:59-06:00] Retrieved preflight installer result:
 k3s-agent-one:
   info:
-  - Successfully installed package nfs-common
   - Successfully probed module nfs
   - Successfully probed module dm_crypt
   - Successfully started service iscsid
 k3s-agent-three:
   info:
-  - Successfully installed package nfs-common
   - Successfully probed module nfs
   - Successfully probed module dm_crypt
   - Successfully started service iscsid
 k3s-agent-two:
   info:
-  - Successfully installed package nfs-common
   - Successfully probed module nfs
   - Successfully probed module dm_crypt
   - Successfully started service iscsid
 k3s-server:
   info:
-  - Successfully installed package nfs-common
   - Successfully probed module nfs
   - Successfully probed module dm_crypt
-  - Successfully started service iscsid
-INFO[2025-10-02T21:19:07-06:00] Cleaning up preflight installer
-INFO[2025-10-02T21:19:07-06:00] Completed preflight installer. Use 'longhornctl check preflight' to check the result (on some os a reboot and a new install execution is required first)
+  - Successfully started service iscsid 
+INFO[2026-09-16T09:18:59-06:00] Cleaning up preflight installer              
+INFO[2026-09-16T09:18:59-06:00] Completed preflight installer. Use 'longhornctl check preflight' to check the result (on some os a reboot and a new install execution is required first
 ```
 
-Following that, run the `longhornctl --kube-config ~/.kube/config check preflight` again and you should not get any errors.
+Following that, run the `longhornctl --kubeconfig ~/.kube/config check preflight` again and you should not get any errors.
 
 ## Resolving Warnings
 
@@ -84,6 +104,14 @@ The first warning can easily be resolved with the following command:
 ```bash
 kubectl scale deployment coredns -n kube-system --replicas=2
 ```
+
+Check that you have scaled up with:
+
+```bash
+kubectl get deployment coredns -n kube-system
+```
+
+You want to see `2/2` marked as `READY`. At that point you can run the preflight check again to verify the warning is no longer there.
 
 `multipathd.service` was running on all my nodes which might interfere with Longhorn volumes. The first thing I did was check if I was actually using multipath at all. To do this, I SSH'd into my nodes and then ran the following command:
 
@@ -102,3 +130,8 @@ sudo systemctl disable multipathd.socket
 sudo systemctl status multipathd
 sudo systemctl status multipathd.socket
 ```
+
+## Helpful Documentation
+
+- https://k3s.guide/docs/storage/setup-longhorn/
+- https://longhorn.io/docs/1.12.1/deploy/install/install-with-helm-controller/
